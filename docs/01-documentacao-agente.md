@@ -1,62 +1,56 @@
-# Documentação do Agente
+# Base de Conhecimento
 
-## Caso de Uso
+## Dados Utilizados
 
-### Problema
-> Qual problema financeiro seu agente resolve?
+O agente **Fintech Nina** utiliza arquivos da pasta `data` para contextualizar interações e personalizar recomendações financeiras:
 
-Muitas pessoas têm dificuldade em compreender seus hábitos de gastos, planejar orçamentos pessoais, controlar despesas e tomar decisões financeiras informadas. Falta de análise clara sobre padrões de consumo e orientação acessível leva ao endividamento, falta de poupança e ausência de planejamento financeiro de longo prazo.
+| Arquivo | Formato | Utilização no Agente |
+|---------|---------|---------------------|
+| `historico_atendimento.csv` | CSV | Contextualizar interações anteriores e manter histórico de conversas |
+| `perfil_investidor.json` | JSON | Personalizar recomendações e definir nível de risco adequado (conservador, moderado, agressivo) |
+| `produtos_financeiros.json` | JSON | Sugerir produtos financeiros adequados ao perfil e objetivos do cliente |
+| `transacoes.csv` | CSV | Analisar padrão de gastos, categorizar despesas e identificar oportunidades de economia |
+| `categorias_gastos.json` | JSON | Classificar automaticamente as transações do usuário em categorias padronizadas |
 
-### Solução
-> Como o agente resolve esse problema de forma proativa?
-
-O agente financeiro virtual atua de forma proativa analisando transações do usuário, categorizando automaticamente gastos, identificando padrões de consumo e oferecendo recomendações personalizadas para otimização de orçamento. Através de conversas contínuas, o agente educa o usuário sobre hábitos financeiros saudáveis, alerta sobre gastos anormais e sugere metas de poupança realistas com base no histórico individual.
-
-### Público-Alvo
-> Quem vai usar esse agente?
-
-Adultos brasileiros (18-65 anos) que desejam melhorar sua saúde financeira, incluindo profissionais autônomos, assalariados, pequenos empresários e pessoas em processo de educação financeira. Desde iniciantes sem conhecimento financeiro até usuários avançados buscando otimização de investimentos.
+> [!TIP]
+> **Quer um dataset mais robusto?** Você pode utilizar datasets públicos do [Hugging Face](https://huggingface.co/datasets) relacionados a finanças, desde que sejam adequados ao contexto do desafio.
 
 ---
 
-## Persona e Tom de Voz
+## Adaptações nos Dados
 
-### Nome do Agente
-**Fintech Nina** - Agente Financeira Virtual Inteligente
+Os dados foram expandidos e adaptados para melhor servir ao contexto do agente financeiro:
 
-### Personalidade
-O agente se comporta de forma consultiva, empática e educativa. É amigável e acessível, evitando jargão técnico desnecessário, mas mantendo credibilidade através de análises profundas. Comporta-se como um consultor financeiro pessoal confiável que respeita as decisões do usuário enquanto oferece insights valiosos.
-
-### Tom de Comunicação
-Formal-Informal Equilibrado: Acessível e conversável, mas mantendo profissionalismo. Usa linguagem clara, evita tecnicismos quando possível, mas não perde credibilidade. Tom otimista mas realista sobre desafios financeiros.
-
-### Exemplos de Linguagem
-- Saudação: "Oi! Sou a Nina, sua assistente financeira. Vamos juntos analisar suas finanças e encontrar oportunidades para melhorar? 💰"
-- Confirmação: "Entendi perfeitamente! Deixa eu processar essas informações e trazer uma análise bem útil para você."
-- Erro/Limitação: "Não tenho acesso a essa informação específica agora, mas posso ajudar você a revisar sua categoria de gastos e encontrar economia em outras áreas. Quer tentar?"
+- **Enriquecimento de Transações**: Cada transação foi associada a uma categoria de gasto e a um motivo (necessidade, impulso, planejado)
+- **Perfil Investidor Expandido**: Incluídos campos como tolerância ao risco, objetivos financeiros de curto/médio/longo prazo, e preferências de investimento
+- **Histórico de Recomendações**: Adicionado registro das recomendações anteriores aceitas ou rejeitadas para melhorar personalização
+- **Dados Demográficos**: Idade, profissão, renda mensal e localização para contextualizar melhor o perfil do usuário
+- **Métricas de Saúde Financeira**: Taxa de poupança, índice de endividamento, score de educação financeira
 
 ---
 
-## Arquitetura
+## Estratégia de Integração
 
-### Diagrama
+### Como os dados são carregados?
 
-```mermaid
-flowchart TD
-    A[Usuário] -->|Mensagem/Dados| B[Interface Conversacional]
-    B --> C[Processador de Entrada]
-    C --> D{Tipo de Requisição?}
-    D -->|Análise| E[Motor de Análise Financeira]
-    D -->|Consulta| F[Base de Conhecimento Financeira]
-    D -->|Transação| G[Processador de Dados]
-    E --> H[Classificador de Despesas]
-    G --> H
-    H --> I[LLM - GPT-4/Claude]
-    F --> I
-    I --> J[Validador de Respostas]
-    J --> K{Alucinação Detectada?}
-    K -->|Sim| L[Resposta de Redirecionamento]
-    K -->|Não| M[Resposta Formatada]
-    L --> N[Interface de Resposta]
-    M --> N
-    N --> O[Usuário]
+Os dados são carregados através de uma abordagem em camadas:
+
+1. **Inicialização da Sessão**: Ao iniciar a conversa, o sistema carrega o perfil do cliente (JSON) e o histórico de transações (CSV)
+2. **Carregamento Dinâmico**: Conforme a conversa progride, dados adicionais são consultados sob demanda (produtos financeiros, histórico de atendimento anterior)
+3. **Cache em Memória**: Os dados carregados são mantidos em memória durante a sessão para resposta rápida
+4. **Processamento de Entrada**: O Processador de Entrada valida e estrutura os dados antes de encaminhá-los aos motores de análise
+
+### Como os dados são usados no prompt?
+
+Os dados seguem uma estratégia híbrida:
+
+- **System Prompt Estático**: Inclui contexto sobre a persona "Fintech Nina", tom de voz, valores e limitações do agente
+- **Context Dinâmico**: O perfil e histórico do cliente são injetados no contexto da conversa a cada turno, permitindo decisões personalizadas
+- **Consulta sob Demanda**: Quando o usuário faz uma pergunta específica, a base de conhecimento é consultada para fornecer informações precisas (produtos disponíveis, análises de transações)
+- **Validação com Dados Reais**: Todas as recomendações são validadas contra os dados do cliente antes de serem apresentadas
+
+---
+
+## Exemplo de Contexto Montado
+
+Aqui está um exemplo de como os dados são formatados para o agente processar:
