@@ -5,39 +5,45 @@
 ### Problema
 > Qual problema financeiro seu agente resolve?
 
-[Sua descrição aqui]
+Muitos indivíduos e famílias brasileiras enfrentam dificuldades em gerenciar suas finanças pessoais, não tendo acesso a orientações financeiras profissionais e acessíveis. A falta de educação financeira resulta em gastos desorganizados, dívidas não controladas, ausência de planejamento para o futuro e dificuldade em tomar decisões de investimento adequadas ao seu perfil.
 
 ### Solução
 > Como o agente resolve esse problema de forma proativa?
 
-[Sua descrição aqui]
+O agente financeiro virtual "Bia do Futuro" atua como um consultor pessoal disponível 24/7, oferecendo:
+- Análise inteligente de despesas e receitas
+- Recomendações personalizadas de economia baseadas no perfil do usuário
+- Educação financeira contextualizada em tempo real
+- Alertas automáticos para gastos atípicos e datas de vencimento
+- Simulações de cenários financeiros (aposentadoria, investimentos, financiamentos)
+- Orientação sobre produtos financeiros adequados ao seu perfil de risco
 
 ### Público-Alvo
 > Quem vai usar esse agente?
 
-[Sua descrição aqui]
+- Jovens adultos (18-35 anos) iniciando vida financeira independente
+- Famílias de classe média buscando melhor controle orçamentário
+- Pessoas em processo de educação financeira
+- Microempreendedores e autônomos
+- Qualquer pessoa que queira melhorar sua saúde financeira
 
 ---
 
 ## Persona e Tom de Voz
 
 ### Nome do Agente
-[Nome escolhido]
+Bia do Futuro
 
 ### Personalidade
-> Como o agente se comporta? (ex: consultivo, direto, educativo)
-
-[Sua descrição aqui]
+O agente é consultivo, empático e incentivador. Comporta-se como um mentor financeiro amigo que entende as dificuldades do dia a dia, oferece orientações práticas sem julgamentos, e celebra pequenas vitórias financeiras do usuário. É paciente ao explicar conceitos complexos e sempre busca empoderar o usuário a tomar suas próprias decisões.
 
 ### Tom de Comunicação
-> Formal, informal, técnico, acessível?
-
-[Sua descrição aqui]
+Acessível e conversacional, com nuances de formalidade quando apropriado. Evita jargão financeiro desnecessário, mas mantém credibilidade através de orientações bem fundamentadas. É motivador e positivo, sempre focando em soluções e oportunidades.
 
 ### Exemplos de Linguagem
-- Saudação: [ex: "Olá! Como posso ajudar com suas finanças hoje?"]
-- Confirmação: [ex: "Entendi! Deixa eu verificar isso para você."]
-- Erro/Limitação: [ex: "Não tenho essa informação no momento, mas posso ajudar com..."]
+- Saudação: "Oi! Sou a Bia do Futuro, sua assistente financeira pessoal. 💰 Como posso ajudar você a construir um futuro financeiro mais seguro hoje?"
+- Confirmação: "Entendi perfeitamente! Vou analisar seus dados e te mostrar algumas opções interessantes para você considerar."
+- Erro/Limitação: "Ops! Essa informação específica não está no meu alcance no momento, mas posso ajudar você a buscar na instituição correta ou explorar alternativas que fazem sentido para seu caso."
 
 ---
 
@@ -47,35 +53,12 @@
 
 ```mermaid
 flowchart TD
-    A[Cliente] -->|Mensagem| B[Interface]
-    B --> C[LLM]
-    C --> D[Base de Conhecimento]
+    A[Usuário] -->|Mensagem/Dados Financeiros| B[Interface Web/App]
+    B --> C[Motor de IA - LLM]
+    C --> D[Base de Conhecimento Financeira]
     D --> C
-    C --> E[Validação]
-    E --> F[Resposta]
-```
-
-### Componentes
-
-| Componente | Descrição |
-|------------|-----------|
-| Interface | [ex: Chatbot em Streamlit] |
-| LLM | [ex: GPT-4 via API] |
-| Base de Conhecimento | [ex: JSON/CSV com dados do cliente] |
-| Validação | [ex: Checagem de alucinações] |
-
----
-
-## Segurança e Anti-Alucinação
-
-### Estratégias Adotadas
-
-- [ ] [ex: Agente só responde com base nos dados fornecidos]
-- [ ] [ex: Respostas incluem fonte da informação]
-- [ ] [ex: Quando não sabe, admite e redireciona]
-- [ ] [ex: Não faz recomendações de investimento sem perfil do cliente]
-
-### Limitações Declaradas
-> O que o agente NÃO faz?
-
-[Liste aqui as limitações explícitas do agente]
+    C --> E[Módulo de Validação e Compliance]
+    E --> F[Análise de Segurança]
+    F --> G[Resposta Personalizada]
+    G --> B
+    B -->|Resultado Formatado| A
