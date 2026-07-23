@@ -264,9 +264,3 @@ Depois de apresentar, peça feedback específico:
 - [ ] O diferencial foi percebido?
 - [ ] Você se vê usando esse agente?
 - [ ] Tem sugestões de melhoria?
-
-**Feedback recebido:**
-- _______________________________________________
-- _______________________________________________
-- _______________________________________________
-
